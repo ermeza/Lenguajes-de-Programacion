@@ -6,15 +6,12 @@
 
 //---------------------------------------------------------------------------
 
-int int main(int argc, char const *argv[]) {
+int int main() {
   FILE *pf;
   char caracter;
-  char letraMa[30];
-  char letraMi[30];
-  int numero[10]={0,1,2,3,4,5,6,7,8,9};
   char pal_res[16][25]={"define", "imprimir", "leer", "Si", "SiNo", "Hacer", \
-  "FinSi", "Repetir", "Mientras", "Hasta", "entero", "flotante", "caracter"};
-  pf=fopen(""."rw");
+                        "FinSi", "Repetir", "Mientras", "Hasta", "entero", "flotante", "caracter"};
+  pf=fopen("ArchivoAnalisis.txt"."rw");
   if (pf=NULL){
     fpats("Error",stderr);
     exit(1);
@@ -30,14 +27,14 @@ int int main(int argc, char const *argv[]) {
     char Tkn=flex(caracter)
     printf("%s\n",Tkn);
     Estado=0;
-    enumTkn flex(char c){
+      flex(char c){
       switch (c) {
-        case letraMa:
+        case ( c>=65 && c<=90 )||(c>=96 && c<=122)://Letras Mayusculas o Minusculas
           if (Estado==0||Estado==1||Estado==2||Estado==9) {
             Estado==1;
           }
           break;
-        case numero:
+        case (c<=57&&c>=48)://Numeros
           if (Estado==1||Estado==2) {
             Estado==2
           } else if (Estado==2||Estado==9) {
@@ -51,15 +48,28 @@ int int main(int argc, char const *argv[]) {
           }else {
             Estado==7;
           }
+          break;
         case '.':
             if (Estado==6) {
               Estado==7;
             } else if (Estado==3) {
               Estado==4;
             }
+            break;
+        case '\n':
+            if (Estado==0||Estado==1||Estado==2) {
+              printf("Tkn_cadena%s\n", );
+            }else if((c=='-'||c=='+'||c=='/'||c=='*')&&(Estado==0||Estado==3||Estado==3||Estado==5)){
+          		printf("Tkn_Operacion_Aritmetica%s\n");
+          	}else if((c=='<'||c=='>'||c=='='||c=='!')&&(Estado==0||Estado==2||Estado==6)){
+          		printf("Tkn_Relacion%s\n");
+          	}else if((c=='<'||c=='-')&&(Estado==0||Estado==2||Estado==6||Estado==8)){
+          		printf("Tkn_Asignacion%s\n");
+          	}
+            break;
         default;
         printf("Error de sintaxis\n");
-        exit(1); 
+        exit(1);
         }
       }
     }
