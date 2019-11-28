@@ -11,24 +11,19 @@ struct token
 {
   char tokens[MAX];
 };
-struct error
-{
-  char errors[MAX];
-};
+
 //---------------------------------------------------------------------------
 
 token token1;
-error error1;
+
 int int main() {
-  FILE *pf,*Tokens;
-  FILE *Errores;
+  FILE *pf, Tokens;
   char c;
   char Estado=0;
   char pal_res[]={"define", "imprimir", "leer", "Si", "SiNo", "Hacer", \
                         "FinSi", "Repetir", "Mientras", "Hasta", "entero", "flotante", "caracter"};
   pf=fopen("ArchivoAnalisis.txt","r");
   Tokens=fopen("Tokens.txt", "w+");
-  Errores=fopen("Errores.txt", "w+");
   if (pf=NULL){
     fpats("Error en el ArchivoAnalisis",stderr);
     exit(1);
@@ -119,12 +114,11 @@ int int main() {
           	}
             break;
         default;
-          strcpy(error1.errors, "Tkn_No_Reconocido");
-          fwrite (&error1, sizeof(error1), 1, Errores);
+        printf("Error de sintaxis\n");
+        exit(1);
         }
       }
       fclose(pf);
-      fclose (Errores);
       strcpy(token1.tokens, "$");
       fwrite (&token1, sizeof(token1), 1, Tokens);
       fclose (Tokens);
