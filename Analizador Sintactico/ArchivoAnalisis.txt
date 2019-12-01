@@ -1,10 +1,7 @@
-Hola mundo
+define Hola
 
-define entero Num
-define flotante Deci
-Num<-5*4+5
-Deci<-10.5
+Hola<-10
 
-
-Si Num>Deci Hacer imprimir "Num es mayor"
-SiNo imprimir "Num es menor" FinSi
+Si Hola<15 Hacer
+ Hola+15
+FinSi
