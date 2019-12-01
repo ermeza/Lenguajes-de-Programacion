@@ -38,7 +38,7 @@ int main() {
       for(i=0;i<=16;i++){//Busca en el arreglo pal_res
         for(j=0;j<=25;j++){
           if(pal_res[i][j]==c){
-            strcpy(token1.tokens, "Tkn_Palabra_Reservada");
+            strcpy(token1.tokens, "Tkn_Palabra_Reservada\n");
             fwrite (&token1, sizeof(token1), 1, Tokens);
             Estado=9;
           }
@@ -47,7 +47,7 @@ int main() {
       switch (Estado) {
         case 0:
           if (c>='A'&&c<='Z'){//Letras Mayusculas
-            strcpy(token1.tokens, "Tkn_LetraMa");
+            strcpy(token1.tokens, "Tkn_LetraMa\n");
             fwrite (&token1, sizeof(token1), 1, Tokens);
               Estado=1;
             }else if (c=='-'||c=='+'||c=='/'||c=='*'){//Tnk Operadores y Relacion
@@ -55,7 +55,7 @@ int main() {
             }else if(c<='0'&&c>='9'){//Numeros
                 Estado=5;
               }else{
-              strcpy(error1.errors, "Error en el archivo");
+              strcpy(error1.errors, "Error en el archivo\n");
               fwrite (&error1, sizeof(error1), 1, Errores);
               exit(1);
             }
@@ -84,7 +84,7 @@ int main() {
           }else if (c=='-'||c=='+'||c=='/'||c=='*'){//Tnk Operadores y Relacion
                 Estado=5;
           }else if(c=='.'){//Punto Decimal
-                strcpy(token1.tokens, "Punto Decimal");
+                strcpy(token1.tokens, "Punto Decimal\n");
                 fwrite (&token1, sizeof(token1), 1, Tokens);
                   Estado=4;
           }else  if ((c=='-'||c=='+'||c=='/'||c=='*')&&(c<='0'&&c>='9')){//Tnk Operadores y Relacion
@@ -104,13 +104,13 @@ int main() {
           if(c<='0'&&c>='9'){//Numeros
             Estado=3;
           }else if (c=='-'||c=='+'||c=='/'||c=='*'){//Tnk Operadores y Relacion
-                strcpy(token1.tokens, "Tkn_Operador_Aritmetico");
+                strcpy(token1.tokens, "Tkn_Operador_Aritmetico\n");
                 fwrite (&token1, sizeof(token1), 1, Tokens);
                 Estado=0;
           }
         break;
         case 6:
-          strcpy(token1.tokens, "Punto Decimal");
+          strcpy(token1.tokens, "Punto Decimal\n");
           fwrite (&token1, sizeof(token1), 1, Tokens);
           if(c<='0'&&c>='9'){//Numeros
             Estado=6;
@@ -140,18 +140,20 @@ int main() {
       }
       if( c=='\n'){//Ultimo Tnk Analizado
           if (Estado==0||Estado==1||Estado==2) {
-            strcpy(token1.tokens, "Tkn_cadena");
+            strcpy(token1.tokens, "Tkn_cadena\n");
             fwrite (&token1, sizeof(token1), 1, Tokens);
           }else if(Estado==3||Estado==4||Estado==5){
-            strcpy(token1.tokens, "Tkn_Operacion_Aritmetica");
+            strcpy(token1.tokens, "Tkn_Operacion_Aritmetica\n");
             fwrite (&token1, sizeof(token1), 1, Tokens);
           }else if(Estado==6){
-            strcpy(token1.tokens, "Tkn_Relacion");
+            strcpy(token1.tokens, "Tkn_Relacion\n");
             fwrite (&token1, sizeof(token1), 1, Tokens);
           }else if(Estado==7){
-            strcpy(token1.tokens, "Tkn_numeroDecimal");
+            strcpy(token1.tokens, "Tkn_numeroDecimal\n");
             fwrite (&token1, sizeof(token1), 1, Tokens);
-
+          }else {
+            strcpy(error1.errors, "Tkn_NoReconocido\n");
+            fwrite (&error1, sizeof(error1), 1, Errores);
           }
         }
       }
